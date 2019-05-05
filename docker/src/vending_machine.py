@@ -1,12 +1,8 @@
 from enum import IntEnum
 from dataclasses import dataclass
-
-
-class InsufficientAmountError(Exception):
-    pass
-
-class BeverageNotFoundError(Exception):
-    pass
+from dataclasses import field
+from typing import List
+from errors import InsufficientAmountError, BeverageNotFoundError
 
 class Coin(IntEnum):
     _10 = 10
@@ -17,7 +13,7 @@ class Beverage:
     name: str
 
 @dataclass
-class VendingMachine:    
+class VendingMachine:
     # フィールド
     amount: int = 0
 
@@ -30,5 +26,13 @@ class VendingMachine:
     def push_button(self, beverage_name: str) -> Beverage:
         if self.amount < 100:
             raise InsufficientAmountError
-        beverage = Beverage(name = beverage_name)
-        return beverage
+        if self.is_not_existing(beverage_name): 
+            raise BeverageNotFoundError
+        return Beverage(name = beverage_name)
+
+    def is_not_existing(self, beverage_name: str) -> bool:
+        if beverage_name == 'コーラ':
+            return False
+        if beverage_name == '烏龍茶':
+            return False
+        return True
