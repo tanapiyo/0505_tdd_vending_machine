@@ -1,11 +1,27 @@
 import pytest
 
-from vending_machine import VendingMachine, Coin, InsufficientAmountError
+from vending_machine import VendingMachine, Coin, Beverage, InsufficientAmountError
 
-def test_dispense_cola():
+def test_dispense_cola_beverage():
     vm = VendingMachine()
     vm.insert(Coin._100)
-    assert 'コーラ' == vm.push_button('コーラ')
+    beverage = vm.push_button('コーラ')
+
+    assert beverage.name == 'コーラ'
+
+def test_dispense_beverage():
+    vm = VendingMachine()
+    vm.insert(Coin._100)
+    beverage = vm.push_button('烏龍茶')
+
+    assert isinstance(beverage, Beverage)
+
+def test_dispense_oolong_tea_beverage():
+    vm = VendingMachine()
+    vm.insert(Coin._100)
+    beverage = vm.push_button('烏龍茶')
+
+    assert beverage.name == '烏龍茶'
 
 def test_dispense_cola_without_insert_coin():
     vm = VendingMachine()
